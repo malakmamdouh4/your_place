@@ -712,7 +712,7 @@ class PostController extends Controller
         {
             return response()->json([
                 'status'  => 1 ,
-                'message' => 'كل القوائم' ,
+                'message' => 'القوائم' ,
                 'categories' => $categoriesAr,
                 'types' => $typesAr,
                 'amenities' => $amenitiesAr ,

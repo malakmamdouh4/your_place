@@ -713,16 +713,16 @@ class PostController extends Controller
             return response()->json([
                 'status'  => 1 ,
                 'message' => 'كل القوائم' ,
-                'الفئات' => $categoriesAr,
-                'الأنواع' => $typesAr,
-                'الكماليات' => $amenitiesAr ,
-                'الغرف' => $bedroomsAr,
-                'الحمامات' => $bathroomsAr,
-                'الطوابق' => $levelsAr ,
-                'مجهزة بالأثاث' => $furnishedAr,
-                'الكومباوند' => $compoundsAr,
-                'مواعيد التسليم' => $deliveryDatesAr,
-                'شروط التسليم' => $deliveryTermsAr
+                'categories' => $categoriesAr,
+                'types' => $typesAr,
+                'amenities' => $amenitiesAr ,
+                'bedrooms' => $bedroomsAr,
+                'bathrooms' => $bathroomsAr,
+                'levels' => $levelsAr ,
+                'furnished' => $furnishedAr,
+                'compounds' => $compoundsAr,
+                'deliveryDates' => $deliveryDatesAr,
+                'deliveryTerms' => $deliveryTermsAr
             ]);
         }
         else

@@ -10,8 +10,8 @@ class Post extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title','description','price' ,  'avatar' ,'phone' , 'longitude' , 'latitude', 'date' , 'name' ,
-        'category' , 'type' , 'bedrooms' , 'bathrooms' , 'area' , 'level' , 'furnished' , 'compound' ,
+        'title','description','price' , 'phone','avatar' , 'longitude' , 'latitude', 'date' , 'name' , 'avatar' ,
+        'category' , 'company' , 'type' , 'bedrooms' , 'bathrooms' , 'area' , 'level' , 'furnished' , 'compound' ,
          'deliveryDate' , 'deliveryTerm', 'user_id' , 'activate'
     ];
 

@@ -442,7 +442,7 @@ class UserController extends Controller
             
             return response()->json([
                 'status' => 1,
-                'message' => 'image for post saved successfully',
+                'message' => $post->avatar,
             ]);
         }
         elseif($request->post_id == null)
@@ -453,7 +453,7 @@ class UserController extends Controller
 
             return response()->json([
                 'status' => 1 ,
-                'message' => 'image for user saved successfully',
+                'message' => $user->avatar ,
             ]);
         }
         else
@@ -868,7 +868,7 @@ class UserController extends Controller
  
   
     // send message to user
-    public function sendMessage(Request $request,$code)
+    public function sendMessage(Request $request)
     {
 
          $code = rand(1000 ,9999);
@@ -896,14 +896,14 @@ class UserController extends Controller
         if ($err) {
             return response()->json([
                 'status' => 0 ,
-                'message' => 'error',
+                'message' => $err,
             ]);
             }
              else 
             {
             return response()->json([
                 'status' => 1 ,
-                'message' => 'code sent',
+                'message' => $output,
             ]);
         }
          

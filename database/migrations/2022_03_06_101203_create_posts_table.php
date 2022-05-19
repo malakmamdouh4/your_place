@@ -21,9 +21,10 @@ class CreatePostsTable extends Migration
             $table->string('name')->nullable();
             $table->string('phone')->nullable();
             $table->string('avatar')->nullable();
-            $table->string('longitude')->nullable();
-            $table->string('latitude')->nullable();
+            $table->integer('longitude')->nullable();
+            $table->integer('latitude')->nullable();
             $table->string('category')->nullable();
+            $table->string('company')->nullable();
 
             $table->string('type')->nullable();
             $table->string('bedrooms')->nullable();
@@ -35,6 +36,7 @@ class CreatePostsTable extends Migration
             $table->string('deliveryDate')->nullable();
             $table->string('deliveryTerm')->nullable();
 
+            $table->string('avatar')->nullable();
             $table->string('date');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');

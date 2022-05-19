@@ -9,6 +9,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Carbon\Carbon ;
+use Illuminate\Support\Str;
+use File;
 
 class PostController extends Controller
 {
@@ -20,17 +22,7 @@ class PostController extends Controller
         $user = User::find($request->user_id) ;
       
         $amenities = $request->input('amenities');
-        $category = config('newsfeedEn.categories');
-        $type = config('newsfeedEn.types');
-        $amenitiies = config('newsfeedEn.amenities');
-        $bedroom = config('newsfeedEn.bedrooms');
-        $bathroom = config('newsfeedEn.bathrooms');
-        $level = config('newsfeedEn.levels');
-        $furnished = config('newsfeedEn.furnished');
-        $compound = config('newsfeedEn.compounds');
-        $deliveryDate = config('newsfeedEn.deliveryDates');
-        $deliveryTerm = config('newsfeedEn.deliveryTerms');
-
+      
         $newDate = Carbon::createFromFormat('Y-m-d', Carbon::now()->toDateString())->format('d M Y');;
         $dayName = substr(Carbon::parse($newDate)->dayName, 0,3) ;
 
@@ -40,70 +32,6 @@ class PostController extends Controller
             return response()->json([
                 'status' => 0 ,
                 'message' => ' user not found ',
-            ]);
-        }
-       
-        elseif (!in_array($request->category , $category) )
-        {
-            return response()->json([
-                'status' => 0 ,
-                'message' => 'category not found',
-            ]);
-        }
-        elseif (!in_array($request->type , $type) )
-        {
-            return response()->json([
-                'status' => 0 ,
-                'message' => 'type not found',
-            ]);
-        }
-        elseif (!in_array($request->bedrooms , $bedroom) )
-        {
-            return response()->json([
-                'status' => 0 ,
-                'message' => 'bedrooms not found',
-            ]);
-        }
-        elseif (!in_array($request->bathrooms , $bathroom))
-        {
-            return response()->json([
-                'status' => 0 ,
-                'message' => 'bathrooms not found',
-            ]);
-        }
-        elseif (!in_array($request->level , $level) )
-        {
-            return response()->json([
-                'status' => 0 ,
-                'message' => 'level not found',
-            ]);
-        }
-        elseif (!in_array($request->furnished , $furnished) )
-        {
-            return response()->json([
-                'status' => 0 ,
-                'message' => 'furnished not found',
-            ]);
-        }
-        elseif (!in_array($request->compound , $compound) )
-        {
-            return response()->json([
-                'status' => 0 ,
-                'message' => 'compound not found',
-            ]);
-        }
-        elseif (!in_array($request->deliveryDate , $deliveryDate)  )
-        {
-            return response()->json([
-                'status' => 0 ,
-                'message' => 'delivery date not found',
-            ]);
-        }
-        elseif (!in_array($request->deliveryTerm , $deliveryTerm) )
-        {
-            return response()->json([
-                'status' => 0 ,
-                'message' => 'delivery term not found',
             ]);
         }
         elseif ($user)
@@ -119,6 +47,7 @@ class PostController extends Controller
                 'name' => $request->input('name') ,
                 'date' => $dayName . ', ' . $newDate  ,
                 'category' => $request->category ,
+                'company' => $request->company ,
                 'type' => $request->type ,
                 'bedrooms' => $request->bedrooms ,
                 'bathrooms' => $request->bathrooms ,
@@ -132,25 +61,10 @@ class PostController extends Controller
             ]);
             foreach ($amenities as $amenity)
             {
-                $check = in_array($amenity,$amenitiies);
-
-                if($check)
-                {
-                    foreach($request->amenities as $ame)
-                    {
-                        Amenity::firstOrCreate([
-                            'name' => $ame ,
-                            'post_id' => $post->id*1
-                        ]);
-                    }
-                }
-                else
-                {
-                    return response()->json([
-                        'status' => 0 ,
-                        'message' => 'amenity not found',
-                    ]);
-                }
+                Amenity::firstOrCreate([
+                    'name' => $amenity ,
+                    'post_id' => $post->id*1
+                ]);
             }
 
             return response()->json([
@@ -169,8 +83,7 @@ class PostController extends Controller
     }
     
     
-
-    // save images to specific post 
+    // save images to specific user 
     public function uploadImages(Request $request)
     {
         $files = $request->file('image');
@@ -230,43 +143,9 @@ class PostController extends Controller
         
         
     }
-
-
-    public function showImage360(Request $request)
-    {
-        $post = Post::find($request->post_id);
-        if($request->post_id == null)
-        {
-            return response()->json([
-                'status' => 1 ,
-                'message' => 'please enter post id',
-            ]);
-        }
-        elseif(!$post)
-        {
-            return response()->json([
-                'status' => 1 ,
-                'message' => 'post not found',
-            ]);
-        }
-        elseif($post && $request->post_id != null)
-        {
-            return response()->json([
-                'status' => 1 ,
-                'message' => $post->avatar,
-            ]);
-        }
-        else
-        {
-            return response()->json([
-                'status' => 1 ,
-                'message' =>'error',
-            ]);
-        }
     
-    }
-
-
+    
+    
     public function uploadMultiImages(Request $request)
     {
 
@@ -311,6 +190,43 @@ class PostController extends Controller
         }
 
     }
+    
+
+
+    public function showImage360(Request $request)
+    {
+        $post = Post::find($request->post_id);
+        if($request->post_id == null)
+        {
+            return response()->json([
+                'status' => 1 ,
+                'message' => 'please enter post id',
+            ]);
+        }
+        elseif(!$post)
+        {
+            return response()->json([
+                'status' => 1 ,
+                'message' => 'post not found',
+            ]);
+        }
+        elseif($post && $request->post_id != null)
+        {
+            return response()->json([
+                'status' => 1 ,
+                'message' => $post->avatar,
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status' => 1 ,
+                'message' =>'error',
+            ]);
+        }
+    
+    }
+
 
 
     // show all posts in home page with paginate ( activate = 1 )
@@ -406,6 +322,7 @@ class PostController extends Controller
     {
         $user = User::find($request->user_id) ;
         $post = Post::find($request->post_id);
+        $amenities = $request->amenities;
 
         if (!$user || $request->user_id == null )
         {
@@ -435,10 +352,30 @@ class PostController extends Controller
             $post->price = $request->input('price');
             $post->phone = $request->input('phone');
             $post->name = $request->input('name');
-            $post->longitude = $request->input('longitude');
-            $post->latitude = $request->input('latitude');
+            
+            if($request->input('longitude') != null )
+            {
+              $post->longitude = $request->input('longitude');
+              $post->save();
+            }
+            elseif($request->input('longitude') == null)
+            {
+              $post->longitude = $post->longitude  ; 
+              $post->save();
+            }
+            elseif($request->input('latitude') != null )
+            {
+                $post->latitude = $request->input('latitude'); 
+                $post->save();
+            }
+            elseif($request->input('latitude') == null )
+            {
+              $post->latitude = $post->latitude;
+              $post->save();
+            }
 
             $post->category = $request->input('category');
+            $post->company = $request->input('company');
             $post->type = $request->input('type');
             $post->bedrooms = $request->input('bedrooms');
             $post->bathrooms = $request->input('bathrooms');
@@ -448,6 +385,17 @@ class PostController extends Controller
             $post->deliveryDate = $request->input('deliveryDate');
             $post->deliveryTerm = $request->input('deliveryTerm');
             $post->area = $request->input('area');
+
+            Amenity::where('post_id',$request->post_id)->delete();
+            
+             foreach ($amenities as $amenity)
+            {
+                Amenity::firstOrCreate([
+                    'name' => $amenity ,
+                    'post_id' => $post->id*1
+                ]);
+            }
+            
             $post->save();
 
             return response()->json([
@@ -710,9 +658,9 @@ class PostController extends Controller
 
         if ( $request->header('language') == 'ar')
         {
-            return response()->json([
+          return response()->json([
                 'status'  => 1 ,
-                'message' => 'القوائم' ,
+                'message' => 'كل القوائم' ,
                 'categories' => $categoriesAr,
                 'types' => $typesAr,
                 'amenities' => $amenitiesAr ,
@@ -744,10 +692,9 @@ class PostController extends Controller
         }
 
     }
-
-
-
-    public function generateRandomString() {
+    
+    
+     public function generateRandomString() {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
@@ -756,6 +703,7 @@ class PostController extends Controller
         }
         return $randomString;
     }
+
 
 
 }

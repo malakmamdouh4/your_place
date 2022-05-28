@@ -88,7 +88,7 @@ class PostController extends Controller
     {
         $files = $request->file('image');
         $post = Post::find($request->post_id);
-        $allowedfileExtension=['jpg','png','jpeg'];
+        $allowedfileExtension=['jpg','png','jpeg','gif'];
 
         
         if(!$post || $request->post_id == null )
@@ -152,7 +152,14 @@ class PostController extends Controller
         $post = Post::find($request->post_id);
         $images = $request->image ;
 
-        if($post && $request->image != null )
+        if(!$post || $request->post_id == null )
+        {
+             return response()->json([
+                        'status' => 0 ,
+                        'message' => 'post not found',
+                    ]);    
+        }
+        elseif(is_countable($images) && count($images) > 0 )
         {
             foreach ($images as $imagee)
             {
@@ -173,7 +180,7 @@ class PostController extends Controller
                     
                     $tmpFile = new File($data);
                 
-                   Image::firstOrCreate([
+                  Image::firstOrCreate([
                             'path' => "http://yourplace360.com/" . $data ,
                             'post_id' =>$request->post_id*1
                         ]);       
@@ -187,6 +194,13 @@ class PostController extends Controller
                         'status' => 1 ,
                         'message' => 'images saves successfully',
                     ]);            
+        }
+        else
+        {
+           return response()->json([
+                        'status' => 0 ,
+                        'message' => 'error or images not found',
+                    ]);     
         }
 
     }
@@ -352,8 +366,9 @@ class PostController extends Controller
             $post->price = $request->input('price');
             $post->phone = $request->input('phone');
             $post->name = $request->input('name');
+            $post->company = $request->input('company');
             
-            if($request->input('longitude') != null )
+              if($request->input('longitude') != null )
             {
               $post->longitude = $request->input('longitude');
               $post->save();
@@ -363,7 +378,14 @@ class PostController extends Controller
               $post->longitude = $post->longitude  ; 
               $post->save();
             }
-            elseif($request->input('latitude') != null )
+            else
+            {
+                 return response()->json([
+                    'status' => 0 ,
+                    'message' => 'error',
+                ]);   
+            }
+            if($request->input('latitude') != null )
             {
                 $post->latitude = $request->input('latitude'); 
                 $post->save();
@@ -372,6 +394,13 @@ class PostController extends Controller
             {
               $post->latitude = $post->latitude;
               $post->save();
+            }
+             else
+            {
+                 return response()->json([
+                    'status' => 0 ,
+                    'message' => 'error',
+                ]);   
             }
 
             $post->category = $request->input('category');
@@ -702,6 +731,13 @@ class PostController extends Controller
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
         return $randomString;
+    }
+    
+    
+    
+    public function __construct()
+    {
+        set_time_limit(300);
     }
 
 

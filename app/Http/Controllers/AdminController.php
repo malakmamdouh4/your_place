@@ -74,8 +74,8 @@ class AdminController extends Controller
         $userr->save();
         return redirect()->back() ;
     }
-
-
+    
+    
     public function notactivateUser($userid)
     {
         $userr = User::find($userid);
@@ -83,7 +83,7 @@ class AdminController extends Controller
         $userr->save();
         return redirect()->back() ;
     }
-
+    
 
     public function deleteUser($userid)
     {
@@ -144,7 +144,7 @@ class AdminController extends Controller
     public function pending()
     {
         $user = User::find(auth()->user()->id);
-        $posts = Post::where('activate', 2)->latest()->paginate(5);
+        $posts = Post::where('activate', 2)->latest()->simplePaginate(5);
         return view('home')->with('user',$user)->with('posts',$posts) ;
     }
 
@@ -152,7 +152,7 @@ class AdminController extends Controller
     public function accepted()
     {
         $user = User::find(auth()->user()->id);
-        $posts = Post::where('activate', 1)->latest()->paginate(5);
+        $posts = Post::where('activate', 1)->latest()->simplePaginate(5);
         return view('home')->with('user',$user)->with('posts',$posts) ;
     }
 

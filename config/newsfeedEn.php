@@ -29,19 +29,19 @@ return[
     ],
 
     'bedrooms' => [
-        'Choose one of these' ,  '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '10' , '+10'
+        'Choose numbers of bedrooms' ,  '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '10' , '+10'
     ],
 
     'bathrooms' => [
-        'Choose one of these' , '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '10' , '+10'
+        'Choose numbers of bathrooms' , '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '10' , '+10'
     ],
 
     'levels' => [
-        'Choose one of these' , 'Ground' , '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '10' , '+10' , 'Highest'
+        'Choose level' , 'Ground' , '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '10' , '+10' , 'Highest'
     ],
 
     'furnished' => [
-        'Choose one of these' , 'yes' , 'no'
+        'Choose furnished or not' , 'yes' , 'no'
     ],
 
     'compounds' => [

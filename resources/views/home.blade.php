@@ -38,12 +38,13 @@
                 </div>
 
                 <div>
+               
                         @if (count($posts) > 0)
-
+                        
                         @foreach($posts as $post)
 
                         @if(count($post->images) > 0 )
-                        <img src="{{asset($post->images[1]['path'])}}" style="width:320px;height:200px;border-radius:30px;padding:10px"> 
+                        <img src="{{asset($post->images[0]['path'])}}" style="width:320px;height:200px;border-radius:30px;padding:10px"> 
                         <h4> {{ $post->title }}</h4>
                         <p style="color:gray"> {{ $post->description }} . <span style="color:#154c79;font-weight: bold;"> Price : {{ $post->price }} </span> </p>
                         @if($post->activate  == 2 )
@@ -54,7 +55,8 @@
                         @endif
                         <br> <br>
                         <hr style="color:gray;width:95%;margin: 25px auto">
-                        @else
+                        
+                        @elseif(count($post->images) == 0)
                         <h4> {{ $post->title }}</h4>
                         <p style="color:gray"> {{ $post->description }} . <span style="color:#154c79;font-weight: bold;"> Price : {{ $post->price }} </span> </p>
                         @if($post->activate  == 2 )
@@ -67,10 +69,12 @@
                         <hr style="color:gray;width:95%;margin: 25px auto">
                         @endif
                         @endforeach
+                           {{$posts->links()}}  
+                           
+                        @else
+                        <h2 style="padding:25px"> There Is No Posts Yet </h2>
                         @endif
-
-
-                          {{$posts->links()}}
+                        
 
                 </div>
 

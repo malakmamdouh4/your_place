@@ -25,7 +25,8 @@ class User extends Authenticatable
         'login_type',
         'avatar',
         'code',
-        'activate'
+        'activate',
+        'groupId'
     ];
 
     /**

@@ -36,12 +36,13 @@
                 </div>
 
                 <div>
+               
                         <?php if(count($posts) > 0): ?>
-
+                        
                         <?php $__currentLoopData = $posts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                         <?php if(count($post->images) > 0 ): ?>
-                        <img src="<?php echo e(asset($post->images[1]['path'])); ?>" style="width:320px;height:200px;border-radius:30px;padding:10px"> 
+                        <img src="<?php echo e(asset($post->images[0]['path'])); ?>" style="width:320px;height:200px;border-radius:30px;padding:10px"> 
                         <h4> <?php echo e($post->title); ?></h4>
                         <p style="color:gray"> <?php echo e($post->description); ?> . <span style="color:#154c79;font-weight: bold;"> Price : <?php echo e($post->price); ?> </span> </p>
                         <?php if($post->activate  == 2 ): ?>
@@ -52,7 +53,8 @@
                         <?php endif; ?>
                         <br> <br>
                         <hr style="color:gray;width:95%;margin: 25px auto">
-                        <?php else: ?>
+                        
+                        <?php elseif(count($post->images) == 0): ?>
                         <h4> <?php echo e($post->title); ?></h4>
                         <p style="color:gray"> <?php echo e($post->description); ?> . <span style="color:#154c79;font-weight: bold;"> Price : <?php echo e($post->price); ?> </span> </p>
                         <?php if($post->activate  == 2 ): ?>
@@ -65,11 +67,12 @@
                         <hr style="color:gray;width:95%;margin: 25px auto">
                         <?php endif; ?>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                           <?php echo e($posts->links()); ?>  
+                           
+                        <?php else: ?>
+                        <h2 style="padding:25px"> There Is No Posts Yet </h2>
                         <?php endif; ?>
-
-
-                          <?php echo e($posts->links()); ?>
-
+                        
 
                 </div>
 

@@ -181,7 +181,7 @@ class PostController extends Controller
                     $tmpFile = new File($data);
                 
                   Image::firstOrCreate([
-                            'path' => "http://yourplace360.com/" . $data ,
+                            'path' => "http://localhost:8000/" . $data ,
                             'post_id' =>$request->post_id*1
                         ]);       
                 //   echo $data . " _ ";
@@ -359,16 +359,118 @@ class PostController extends Controller
                 'message' => 'you are unauthenticated',
             ]);
         }
-        elseif ($post && $post->user_id == $request->user_id && $post->activate == 1)
+        elseif ($post && $post->user_id == $request->user_id)
         {
-            $post->title = $request->input('title');
-            $post->description = $request->input('description');
-            $post->price = $request->input('price');
-            $post->phone = $request->input('phone');
-            $post->name = $request->input('name');
-            $post->company = $request->input('company');
             
-              if($request->input('longitude') != null )
+            if($request->input('title') != null )
+            {
+              $post->title = $request->input('title');
+              $post->save();
+            }
+            elseif($request->input('title') == null)
+            {
+              $post->title = $post->title  ; 
+              $post->save();
+            }
+            else
+            {
+                 return response()->json([
+                    'status' => 0 ,
+                    'message' => 'error in title',
+                ]);   
+            }
+            
+            if($request->input('description') != null )
+            {
+              $post->description = $request->input('description');
+              $post->save();
+            }
+            elseif($request->input('description') == null)
+            {
+              $post->description = $post->description  ; 
+              $post->save();
+            }
+            else
+            {
+                 return response()->json([
+                    'status' => 0 ,
+                    'message' => 'error in description',
+                ]);   
+            }
+            
+            if($request->input('price') != null )
+            {
+              $post->price = $request->input('price');
+              $post->save();
+            }
+            elseif($request->input('price') == null)
+            {
+              $post->price = $post->price  ; 
+              $post->save();
+            }
+            else
+            {
+                 return response()->json([
+                    'status' => 0 ,
+                    'message' => 'error in price',
+                ]);   
+            }
+            
+            if($request->input('phone') != null )
+            {
+              $post->phone = $request->input('phone');
+              $post->save();
+            }
+            elseif($request->input('phone') == null)
+            {
+              $post->phone = $post->phone  ; 
+              $post->save();
+            }
+            else
+            {
+                 return response()->json([
+                    'status' => 0 ,
+                    'message' => 'error in phone',
+                ]);   
+            }
+            
+            if($request->input('name') != null )
+            {
+              $post->name = $request->input('name');
+              $post->save();
+            }
+            elseif($request->input('name') == null)
+            {
+              $post->name = $post->name  ; 
+              $post->save();
+            }
+            else
+            {
+                 return response()->json([
+                    'status' => 0 ,
+                    'message' => 'error in name',
+                ]);   
+            }
+            
+            if($request->input('company') != null )
+            {
+              $post->company = $request->input('company');
+              $post->save();
+            }
+            elseif($request->input('company') == null)
+            {
+              $post->company = $post->company  ; 
+              $post->save();
+            }
+            else
+            {
+                 return response()->json([
+                    'status' => 0 ,
+                    'message' => 'error in company',
+                ]);   
+            }
+            
+            if($request->input('longitude') != null )
             {
               $post->longitude = $request->input('longitude');
               $post->save();
@@ -382,9 +484,10 @@ class PostController extends Controller
             {
                  return response()->json([
                     'status' => 0 ,
-                    'message' => 'error',
+                    'message' => 'error in longitude',
                 ]);   
             }
+            
             if($request->input('latitude') != null )
             {
                 $post->latitude = $request->input('latitude'); 
@@ -399,44 +502,236 @@ class PostController extends Controller
             {
                  return response()->json([
                     'status' => 0 ,
-                    'message' => 'error',
+                    'message' => 'error in latitude',
+                ]);   
+            }
+            
+            if($request->input('category') != null )
+            {
+              $post->category = $request->input('category');
+              $post->save();
+            }
+            elseif($request->input('category') == null)
+            {
+              $post->category = $post->category  ; 
+              $post->save();
+            }
+            else
+            {
+                 return response()->json([
+                    'status' => 0 ,
+                    'message' => 'error in category',
+                ]);   
+            }
+            
+            if($request->input('company') != null )
+            {
+              $post->company = $request->input('company');
+              $post->save();
+            }
+            elseif($request->input('company') == null)
+            {
+              $post->company = $post->company  ; 
+              $post->save();
+            }
+            else
+            {
+                 return response()->json([
+                    'status' => 0 ,
+                    'message' => 'error in company',
+                ]);   
+            }
+            
+            if($request->input('type') != null )
+            {
+              $post->type = $request->input('type');
+              $post->save();
+            }
+            elseif($request->input('type') == null)
+            {
+              $post->type = $post->type  ; 
+              $post->save();
+            }
+            else
+            {
+                 return response()->json([
+                    'status' => 0 ,
+                    'message' => 'error in type',
+                ]);   
+            }
+            
+            if($request->input('bedrooms') != null )
+            {
+              $post->bedrooms = $request->input('bedrooms');
+              $post->save();
+            }
+            elseif($request->input('bedrooms') == null)
+            {
+              $post->bedrooms = $post->bedrooms  ; 
+              $post->save();
+            }
+            else
+            {
+                 return response()->json([
+                    'status' => 0 ,
+                    'message' => 'error in bedrooms',
+                ]);   
+            }
+            
+            if($request->input('bathrooms') != null )
+            {
+              $post->bathrooms = $request->input('bathrooms');
+              $post->save();
+            }
+            elseif($request->input('bathrooms') == null)
+            {
+              $post->bathrooms = $post->bathrooms  ; 
+              $post->save();
+            }
+            else
+            {
+                 return response()->json([
+                    'status' => 0 ,
+                    'message' => 'error in bathrooms',
+                ]);   
+            }
+            
+            if($request->input('level') != null )
+            {
+              $post->level = $request->input('level');
+              $post->save();
+            }
+            elseif($request->input('level') == null)
+            {
+              $post->level = $post->level  ; 
+              $post->save();
+            }
+            else
+            {
+                 return response()->json([
+                    'status' => 0 ,
+                    'message' => 'error in level',
+                ]);   
+            }
+            
+            if($request->input('furnished') != null )
+            {
+              $post->furnished = $request->input('furnished');
+              $post->save();
+            }
+            elseif($request->input('furnished') == null)
+            {
+              $post->furnished = $post->furnished  ; 
+              $post->save();
+            }
+            else
+            {
+                 return response()->json([
+                    'status' => 0 ,
+                    'message' => 'error in furnished',
+                ]);   
+            }
+            
+            if($request->input('compound') != null )
+            {
+              $post->compound = $request->input('compound');
+              $post->save();
+            }
+            elseif($request->input('compound') == null)
+            {
+              $post->compound = $post->compound  ; 
+              $post->save();
+            }
+            else
+            {
+                 return response()->json([
+                    'status' => 0 ,
+                    'message' => 'error in compound',
+                ]);   
+            }
+            
+            if($request->input('deliveryDate') != null )
+            {
+              $post->deliveryDate = $request->input('deliveryDate');
+              $post->save();
+            }
+            elseif($request->input('deliveryDate') == null)
+            {
+              $post->deliveryDate = $post->deliveryDate  ; 
+              $post->save();
+            }
+            else
+            {
+                 return response()->json([
+                    'status' => 0 ,
+                    'message' => 'error in deliveryDate',
+                ]);   
+            }
+            
+            if($request->input('deliveryTerm') != null )
+            {
+              $post->deliveryTerm = $request->input('deliveryTerm');
+              $post->save();
+            }
+            elseif($request->input('deliveryTerm') == null)
+            {
+              $post->deliveryTerm = $post->deliveryTerm  ; 
+              $post->save();
+            }
+            else
+            {
+                 return response()->json([
+                    'status' => 0 ,
+                    'message' => 'error in deliveryTerm',
+                ]);   
+            }
+            
+            if($request->input('area') != null )
+            {
+              $post->area = $request->input('area');
+              $post->save();
+            }
+            elseif($request->input('area') == null)
+            {
+              $post->area = $post->area  ; 
+              $post->save();
+            }
+            else
+            {
+                 return response()->json([
+                    'status' => 0 ,
+                    'message' => 'error in area',
                 ]);   
             }
 
-            $post->category = $request->input('category');
-            $post->company = $request->input('company');
-            $post->type = $request->input('type');
-            $post->bedrooms = $request->input('bedrooms');
-            $post->bathrooms = $request->input('bathrooms');
-            $post->level = $request->input('level');
-            $post->furnished = $request->input('furnished');
-            $post->compound = $request->input('compound');
-            $post->deliveryDate = $request->input('deliveryDate');
-            $post->deliveryTerm = $request->input('deliveryTerm');
-            $post->area = $request->input('area');
 
-            Amenity::where('post_id',$request->post_id)->delete();
-            
-             foreach ($amenities as $amenity)
+            if(count($amenities) > 0 )
             {
-                Amenity::firstOrCreate([
-                    'name' => $amenity ,
-                    'post_id' => $post->id*1
+                Amenity::where('post_id',$request->post_id)->delete();
+                 foreach ($amenities as $amenity)
+                {
+                    Amenity::firstOrCreate([
+                        'name' => $amenity ,
+                        'post_id' => $post->id*1
+                    ]);
+                }
+            
+                return response()->json([
+                    'status' => 1 ,
+                    'message' => 'Post updated',
                 ]);
             }
+            else
+            {
+                
+            }
             
-            $post->save();
-
-            return response()->json([
-                'status' => 1 ,
-                'message' => 'Post updated',
-            ]);
         }
         else
         {
             return response()->json([
                 'status' => 0 ,
-                'message' => 'error or user unauthenticated',
+                'message' => 'error',
             ]);
         }
     }

@@ -1,7 +1,7 @@
 <?php $__env->startSection('content'); ?>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-8" style="margin-bottom:240px;margin-top:50px">
             <div class="card">
                 <div class="card-header"><?php echo e(__('Login')); ?></div>
 
@@ -13,7 +13,7 @@
                             <label for="phone" class="col-md-4 col-form-label text-md-end"><?php echo e(__('Phone')); ?></label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="number" class="form-control <?php $__errorArgs = ['phone'];
+                                <input id="phone" type="text" class="form-control <?php $__errorArgs = ['phone'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }

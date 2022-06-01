@@ -45,6 +45,4 @@ Route::get('/activateUser/{userid}',[AdminController::class, 'activateUser'])->n
 
 Route::get('/notactivateUser/{userid}',[AdminController::class, 'notactivateUser'])->name('notactivateUser');
 
-
-
 Route::get('/deleteUser/{userid}',[AdminController::class, 'deleteUser'])->name('deleteUser');

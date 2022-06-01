@@ -73,8 +73,13 @@ Route::group([
     // get code to change user phone
     Route::post('/edit-phone',[UserController::class,'editPhone']);
     
-     // get code to change user phone
+    // get code to change user phone
     Route::post('/get-phone',[UserController::class,'getPhone']);
+
+    // add user 
+    Route::post('/add-user',[UserController::class, 'addUser']);
+
+    Route::post('/test',[UserController::class, 'test']);
 
     // get all ads that belongs to auth user
     Route::post('/add-to-saved', [UserController::class, 'addToSaved']);

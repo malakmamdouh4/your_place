@@ -88,8 +88,6 @@ class PostController extends Controller
     {
         $files = $request->file('image');
         $post = Post::find($request->post_id);
-        $allowedfileExtension=['jpg','png','jpeg','gif'];
-
         
         if(!$post || $request->post_id == null )
         {
@@ -98,7 +96,7 @@ class PostController extends Controller
                 'message' => 'post not found',
             ]);
         }
-        elseif(!$request->hasFile('image')) {
+        if(!$request->hasFile('image')) {
             return response()->json([
                 'status' => 0 ,
                 'message' => 'upload_file not found',
@@ -110,10 +108,7 @@ class PostController extends Controller
             {
 
                 $extension = $file->getClientOriginalExtension();
-                $check = in_array($extension,$allowedfileExtension);
 
-                if($check)
-                {
                     foreach($request->image as $mediaFiles)
                     {
                         $path = $mediaFiles->store('public');
@@ -124,15 +119,7 @@ class PostController extends Controller
                             'post_id' => $post->id*1
                         ]);
                     }
-                }
-                else
-                {
-                    return response()->json([
-                        'status' => 0 ,
-                        'message' => 'invalid_file_format',
-                    ]);
-                }
-                
+               
                 return response()->json([
                         'status' => 1 ,
                         'message' => 'images saved successfully',
@@ -181,7 +168,7 @@ class PostController extends Controller
                     $tmpFile = new File($data);
                 
                   Image::firstOrCreate([
-                            'path' => "http://localhost:8000/" . $data ,
+                            'path' => "http://yourplace360.com/" . $data ,
                             'post_id' =>$request->post_id*1
                         ]);       
                 //   echo $data . " _ ";
@@ -242,9 +229,44 @@ class PostController extends Controller
     }
 
 
-
     // show all posts in home page with paginate ( activate = 1 )
     public function showPosts(Request $request)
+    {
+
+        $user = User::find($request->user_id);
+        $posts = Post::select('id','title','description' ,'price' , 'date',  'bedrooms' , 'bathrooms' , 'area' ,'user_id')
+            ->with('images')
+            ->with('saves', function ($query) use ($request) {
+                $query->where('user_id',$request->user_id);
+            })
+            ->where('activate',1)
+            ->latest()->get();
+
+        $postsCount = Post::where('activate',1)->count();
+
+        
+        if($postsCount > 0 )
+        {
+            return response()->json([
+                'status' => 1 ,
+                'message' => 'All Posts',
+                'posts' => $posts,
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status' => 1 ,
+                'message' => 'No posts',
+                'posts' => null ,
+            ]);
+
+        }
+    }
+
+
+    // show all posts in home page with paginate ( activate = 1 )
+    public function showPostsWithPagination(Request $request)
     {
 
          $posts = Post::select('id','title','description' ,'price' ,'phone','name','date',
@@ -337,6 +359,7 @@ class PostController extends Controller
         $user = User::find($request->user_id) ;
         $post = Post::find($request->post_id);
         $amenities = $request->amenities;
+        $amenity = Amenity::where('post_id',$request->post_id)->get();
 
         if (!$user || $request->user_id == null )
         {
@@ -705,7 +728,7 @@ class PostController extends Controller
             }
 
 
-            if(count($amenities) > 0 )
+            if(is_countable($amenities) && count($amenities) > 0 )
             {
                 Amenity::where('post_id',$request->post_id)->delete();
                  foreach ($amenities as $amenity)
@@ -723,8 +746,13 @@ class PostController extends Controller
             }
             else
             {
-                
+                 return response()->json([
+                    'status' => 1 ,
+                    'message' => 'Post updated',
+                ]);
             }
+            
+         
             
         }
         else

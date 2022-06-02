@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\FirebaseController;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -21,9 +22,7 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-route::get('/test',function (){
-   return 'welcome to web page' ;
-});
+route::post('/save/{postId}',[AdminController::class, 'save'])->name('save');
 
 Auth::routes();
 
@@ -31,9 +30,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/chat',[UserController::class, 'chat'])->middleware('auth');
 
-Route::get('/accept/{postId}',[AdminController::class, 'acceptPost'])->name('accept');
+Route::post('/accept/{postId}',[AdminController::class, 'acceptPost'])->name('accept');
 
-Route::get('/delete/{postId}',[AdminController::class, 'deletePost'])->name('delete');
+Route::post('/delete/{postId}',[AdminController::class, 'deletePost'])->name('delete');
 
 Route::get('/pending',[AdminController::class, 'pending'])->name('pending');
 
@@ -46,3 +45,6 @@ Route::get('/activateUser/{userid}',[AdminController::class, 'activateUser'])->n
 Route::get('/notactivateUser/{userid}',[AdminController::class, 'notactivateUser'])->name('notactivateUser');
 
 Route::get('/deleteUser/{userid}',[AdminController::class, 'deleteUser'])->name('deleteUser');
+
+
+Route::get('firebase',[FirebaseController::class, 'index']);

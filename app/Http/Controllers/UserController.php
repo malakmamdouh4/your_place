@@ -679,10 +679,12 @@ class UserController extends Controller
     // add user 
     public function addUser(Request $request)
     {
+        
         $file = $request->avatar;
         $extension = $file->getClientOriginalExtension();
         $path = $file->store('public');
         $truepath = substr($path, 7);
+
 
         $user = User::create([
             'name' => 'user',
@@ -695,13 +697,6 @@ class UserController extends Controller
         ]);
         return $user ;
     }
-
-    public function test(Request $request)
-    {
-        $user = User::find(11);
-        return $user->created_at ;
-    }
-
 
     //  add to saved posts
     public function addToSaved(Request $request)

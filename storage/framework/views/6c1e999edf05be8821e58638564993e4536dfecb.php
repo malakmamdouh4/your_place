@@ -42,26 +42,60 @@
                         <?php $__currentLoopData = $posts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                         <?php if(count($post->images) > 0 ): ?>
-                        <img src="<?php echo e(asset($post->images[0]['path'])); ?>" style="width:320px;height:200px;border-radius:30px;padding:10px"> 
+                        <img src="<?php echo e(asset($post->images[0]['path'])); ?>" alt="image of post" style="width:320px;height:200px;border-radius:30px;padding:10px"> 
+                        <h4> <?php echo e($post->id); ?></h4>
                         <h4> <?php echo e($post->title); ?></h4>
                         <p style="color:gray"> <?php echo e($post->description); ?> . <span style="color:#154c79;font-weight: bold;"> Price : <?php echo e($post->price); ?> </span> </p>
+
                         <?php if($post->activate  == 2 ): ?>
-                        <a href="<?php echo e(url('/accept/' . $post->id )); ?>" class="btn btn-xs btn-primary pull-right" style="width:48%">Accept</a>
-                        <a href="<?php echo e(url('/delete/' . $post->id )); ?>" class="btn btn-xs btn-danger pull-right" style="width:48%">Reject</a>
+
+                        <form action="<?php echo e(url('/accept/' . $post->id )); ?>" method="POST">
+                            <?php echo csrf_field(); ?>
+                            <button type="submit" class="btn btn-xs btn-primary pull-right" style="width:48%;float:left;margin-left:2%"> Accept </button> 
+                        </form> 
+
+
+                        <form action="<?php echo e(url('/delete/' . $post->id )); ?>" method="POST">
+                            <?php echo csrf_field(); ?>
+                            <button type="submit" class="btn btn-xs btn-danger pull-right" style="width:48%;float:left;margin-left:2%"> Reject </button> 
+                        </form> 
+
                         <?php elseif($post->activate  == 1): ?>
-                        <a href="<?php echo e(url('/delete/' . $post->id )); ?>" class="btn btn-xs btn-danger pull-right" style="width:100%">Delete this post</a>
+
+
+                        <form action="<?php echo e(url('/delete/' . $post->id )); ?>" method="POST">
+                            <?php echo csrf_field(); ?>
+                            <button type="submit" class="btn btn-xs btn-danger pull-right" style="width:100%"> Delete this post </button> 
+                        </form> 
+
                         <?php endif; ?>
                         <br> <br>
                         <hr style="color:gray;width:95%;margin: 25px auto">
                         
                         <?php elseif(count($post->images) == 0): ?>
+                        <h4> <?php echo e($post->id); ?></h4>
                         <h4> <?php echo e($post->title); ?></h4>
                         <p style="color:gray"> <?php echo e($post->description); ?> . <span style="color:#154c79;font-weight: bold;"> Price : <?php echo e($post->price); ?> </span> </p>
                         <?php if($post->activate  == 2 ): ?>
-                        <a href="<?php echo e(url('/accept/' . $post->id )); ?>" class="btn btn-xs btn-primary pull-right" style="width:48%">Accept</a>
-                        <a href="<?php echo e(url('/delete/' . $post->id )); ?>" class="btn btn-xs btn-danger pull-right" style="width:48%">Reject</a>
+
+                        <form action="<?php echo e(url('/accept/' . $post->id )); ?>" method="POST">
+                            <?php echo csrf_field(); ?>
+                            <button type="submit" class="btn btn-xs btn-primary pull-right" style="width:48%;float:left;margin-left:2%"> Accept </button> 
+                        </form> 
+
+
+                        <form action="<?php echo e(url('/delete/' . $post->id )); ?>" method="POST">
+                            <?php echo csrf_field(); ?>
+                            <button type="submit" class="btn btn-xs btn-danger pull-right" style="width:48%;float:left;margin-left:2%"> Reject </button> 
+                        </form>
+
                         <?php elseif($post->activate  == 1): ?>
-                        <a href="<?php echo e(url('/delete/' . $post->id )); ?>" class="btn btn-xs btn-danger pull-right" style="width:100%">Delete this post</a>
+
+                        <form action="<?php echo e(url('/delete/' . $post->id )); ?>" method="POST">
+                            <?php echo csrf_field(); ?>
+                            <button type="submit" class="btn btn-xs btn-danger pull-right" style="width:100%"> Delete this post </button> 
+                        </form> 
+
                         <?php endif; ?>
                         <br> <br>
                         <hr style="color:gray;width:95%;margin: 25px auto">

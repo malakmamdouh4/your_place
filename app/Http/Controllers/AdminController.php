@@ -6,9 +6,21 @@ use App\Models\Post;
 use App\Models\Share;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Kreait\Firebase\Contract\Database;
+
 
 class AdminController extends Controller
 {
+
+
+    public function __construct(Database $database)
+    {
+        $this->database = $database;
+        $this->tablename = 'posts' ;
+    }
+    
+
+
 
     // update post activate to 1
     public function updateUserActivate(Request $request){
@@ -62,10 +74,10 @@ class AdminController extends Controller
     public function users()
     {
         $user = User::find(auth()->user()->id);
-        $users = User::whereNotIn('activate',[3])->latest()->simplePaginate(20);
+        $users = User::whereNotIn('activate',[3])->where('id', '!=', auth()->id())->latest()->simplePaginate(20);
         return view('users')->with('users',$users)->with('user',$user) ;
     }
-
+    
 
     public function activateUser($userid)
     {
@@ -123,9 +135,56 @@ class AdminController extends Controller
 
      public function acceptPost($postId)
     {
-        $post = Post::find($postId);
+        $key = $postId ;
+        $post = Post::find($postId) ;
         $post->activate = 1*1 ;
         $post->save();
+
+        if($post->activate == 3 )
+        {
+            $delete = 1*1 ;
+        }
+        else
+        {
+            $delete = 0*1 ;
+        }
+
+        if($post->avatar != null )
+        {
+            $avatar = 1*1 ;
+        }
+        else
+        {
+            $avatar = 0*1 ;
+        }
+        
+        if($post->latitude != null )
+        {
+            $latitude = $post->latitude;
+        }
+        else
+        {
+            $latitude ='null'  ;
+        }
+
+        if($post->longitude != null )
+        {
+            $longitude = $post->longitude ;
+        }
+        else
+        {
+            $longitude = 'null';
+        }
+
+        $postData = [
+            'is360' => $avatar ,
+            'isDeleted' => $delete ,
+            'longitude' => $longitude ,
+            'latitude' =>  $latitude ,
+            'postID' =>  $post->id,
+            'userID' => $post->user_id
+        ] ;
+        $postRef = $this->database->getReference($this->tablename)->getChild($key)->update($postData);  
 
         return redirect()->back();
     }
@@ -133,9 +192,17 @@ class AdminController extends Controller
 
     public function deletePost($postId)
     {
+
         $post = Post::find($postId);
         $post->activate = 3*1 ;
         $post->save();
+
+        $key = $postId ;
+        $postUpdate = [
+            'isDeleted' => 1*1,
+        ] ;
+
+        $postRef = $this->database->getReference($this->tablename.'/'.$key)->update($postUpdate); 
 
         return redirect()->back();
     }
@@ -155,6 +222,62 @@ class AdminController extends Controller
         $posts = Post::where('activate', 1)->latest()->simplePaginate(5);
         return view('home')->with('user',$user)->with('posts',$posts) ;
     }
+
+
+    public function save($postId)
+    {
+        $key = $postId ;
+        $post = Post::find($postId) ;
+
+        if($post->activate == 3 )
+        {
+            $delete = 1*1 ;
+        }
+        else
+        {
+            $delete = 0*1 ;
+        }
+
+        if($post->avatar != null )
+        {
+            $avatar = 1*1 ;
+        }
+        else
+        {
+            $avatar = 0*1 ;
+        }
+        
+        if($post->latitude != null )
+        {
+            $latitude = $post->latitude;
+        }
+        else
+        {
+            $latitude ='null'  ;
+        }
+
+        if($post->longitude != null )
+        {
+            $longitude = $post->longitude ;
+        }
+        else
+        {
+            $longitude = 'null';
+        }
+
+        $postData = [
+            'is360' => $avatar ,
+            'isDeleted' => $delete ,
+            'longitude' => $longitude ,
+            'latitude' =>  $latitude ,
+            'postID' =>  $post->id,
+            'userID' => $post->user_id
+        ] ;
+        $postRef = $this->database->getReference($this->tablename)->getChild($key)->push($postData);  
+        
+        return redirect()->back();
+    }
+
 
 
 }

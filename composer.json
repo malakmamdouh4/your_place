@@ -9,6 +9,8 @@
         "beyondcode/laravel-websockets": "^1.13",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.4",
+        "kreait/firebase-php": "^6.3",
+        "kreait/laravel-firebase": "^4.1",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",

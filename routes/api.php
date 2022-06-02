@@ -79,8 +79,6 @@ Route::group([
     // add user 
     Route::post('/add-user',[UserController::class, 'addUser']);
 
-    Route::post('/test',[UserController::class, 'test']);
-
     // get all ads that belongs to auth user
     Route::post('/add-to-saved', [UserController::class, 'addToSaved']);
 

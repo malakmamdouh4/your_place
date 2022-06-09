@@ -16,7 +16,7 @@ class AdminController extends Controller
     public function __construct(Database $database)
     {
         $this->database = $database;
-        $this->tablename = 'posts' ;
+        $this->tablename = 'Posts' ;
     }
     
 

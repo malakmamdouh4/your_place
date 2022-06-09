@@ -405,6 +405,63 @@ class UserController extends Controller
 
     }
 
+
+
+    // upload image360 for posts & users as a file
+    public function uploadImage360(Request $request)
+    {
+
+        $user = User::find($request->user_id);
+        $post = Post::find($request->post_id);
+        $file = $request->avatar;
+
+        $extension = $file->getClientOriginalExtension();
+        $path = $file->store('public');
+        $truepath = substr($path, 7);
+
+
+        if ($file == null )
+        {
+            return response()->json([
+                'status' => 0,
+                'message' => 'image360 not found ',
+            ]);
+        }
+        elseif($request->user_id == null)
+        {
+            
+            $post->avatar = URL::to('/') . '/storage/' . $truepath;
+            $post->save();
+            
+            return response()->json([
+                'status' => 1,
+                'message' => $post->avatar,
+            ]);
+        }
+        elseif($request->post_id == null)
+        {
+
+            $user->avatar = URL::to('/') . '/storage/' . $truepath ;
+            $user->save();
+
+            return response()->json([
+                'status' => 1 ,
+                'message' => $user->avatar ,
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status' => 0 ,
+                'message' => 'error',
+            ]);
+
+        }
+
+    }
+
+
+    // upload image360 for posts & users in base64 
     public function uploadUserAvatar(Request $request)
     {
         
@@ -698,6 +755,7 @@ class UserController extends Controller
         return $user ;
     }
 
+
     //  add to saved posts
     public function addToSaved(Request $request)
     {
@@ -962,7 +1020,8 @@ class UserController extends Controller
 
 
 
-    public function generateRandomString() {
+    public function generateRandomString() 
+    {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';

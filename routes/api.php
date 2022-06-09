@@ -62,6 +62,10 @@ Route::group([
     // upload user avatar
     Route::post('/upload-avatar',[UserController::class,'uploadAvatar']);
 
+    // upload image360 for posts & users in base64
+    Route::post('/upload-image-360',[UserController::class,'uploadImage360']);
+
+    // upload image360 for posts & users as a file
     Route::post('/upload-user-avatar',[UserController::class,'uploadUserAvatar']);
 
     // change user name
